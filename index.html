@@ -80,7 +80,17 @@ footer{background:#142c27;color:white;text-align:center;padding:25px}
 <p>© 2026 Souk Tounsi</p>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+const SUPABASE_URL = "https://hcpzsvvmafhkauxleynx.supabase.co";
+const SUPABASE_KEY = "ضع هنا Publishable key الحقيقي";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
 async function testSupabase() {
   const { data, error } = await supabaseClient
     .from('annonces')
@@ -93,20 +103,8 @@ async function testSupabase() {
     alert('Connexion Supabase réussie !');
   }
 }
+
 testSupabase();
 </script>
-  
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </body>
 </html>
-j
-<script>
-const SUPABASE_URL = "https://hcpzsvvmafhkauxleynx.supabase.co";
-const SUPABASE_KEY = " Publishable key";
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-</script>
-j
