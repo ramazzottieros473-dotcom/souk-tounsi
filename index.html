@@ -80,6 +80,21 @@ footer{background:#142c27;color:white;text-align:center;padding:25px}
 <p>© 2026 Souk Tounsi</p>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+async function testSupabase() {
+  const { data, error } = await supabaseClient
+    .from('annonces')
+    .select('id')
+    .limit(1);
+
+  if (error) {
+    alert('Erreur Supabase: ' + error.message);
+  } else {
+    alert('Connexion Supabase réussie !');
+  }
+}
+testSupabase();
+</script>
 </body>
 </html>
 j
