@@ -87,6 +87,10 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );alert("Supabase client créé !");
+  document.body.insertAdjacentHTML(
+  "beforeend",
+  "<p>SUPABASE CLIENT OK</p>"
+);
 </script>
 
 async function testSupabase() {
