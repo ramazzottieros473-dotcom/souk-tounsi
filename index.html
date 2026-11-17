@@ -115,6 +115,20 @@ const SUPABASE_URL = "https://hcpzsvvmafhkauxleynx.supabase.co";
 const SUPABASE_KEY = "ضع هنا Publishable Key الجديد";
 
 const supabaseClient = window.supabase.createClient(
+  async function testSupabase() {
+  const { data, error } = await supabaseClient
+    .from('annonces')
+    .select('id')
+    .limit(1);
+
+  if (error) {
+    console.error("Erreur Supabase:", error.message);
+  } else {
+    console.log("Connexion Supabase réussie !");
+  }
+}
+
+testSupabase();
   SUPABASE_URL,
   SUPABASE_KEY
 );
