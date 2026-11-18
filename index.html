@@ -191,7 +191,19 @@ footer {
     <h2>Vous avez quelque chose à vendre ?</h2>
     <p>Rejoignez Souk Tounsi et présentez votre annonce.</p>
 
-    <button onclick="alert('Le dépôt des annonces arrive bientôt !')">
+    <button onclick="alert('<section id="publish-section">
+  <h2>Déposer une annonce</h2>
+
+  <input id="title" type="text" placeholder="Titre de l'annonce">
+  <textarea id="description" placeholder="Description"></textarea>
+  <input id="price" type="number" placeholder="Prix en TND">
+  <input id="category" type="text" placeholder="Catégorie">
+  <input id="city" type="text" placeholder="Ville">
+  <input id="phone" type="tel" placeholder="Téléphone">
+
+  <button onclick="publishAd()">Publier l'annonce</button>
+  <p id="publish-message"></p>
+</section> !')">
       Déposer une annonce
     </button>
   </div>
@@ -267,7 +279,42 @@ testSupabase();
     ? error.message
     : "Compte créé ! Vérifiez votre email.";
 }
-async function signIn() {
+async function signIn() {async function publishAd() {
+  const message = document.getElementById("publish-message");
+
+  const { data: { user }, error: authError } =
+    await supabaseClient.auth.getUser();
+
+  if (authError || !user) {
+    message.textContent = "Veuillez vous connecter d'abord.";
+    return;
+  }
+
+  const annonce = {
+    title: document.getElementById("title").value.trim(),
+    description: document.getElementById("description").value.trim(),
+    price: Number(document.getElementById("price").value),
+    category: document.getElementById("category").value.trim(),
+    city: document.getElementById("city").value.trim(),
+    phone: document.getElementById("phone").value.trim()
+  };
+
+  if (!annonce.title || !annonce.description ||
+      !annonce.category || !annonce.city) {
+    message.textContent = "Veuillez remplir les champs obligatoires.";
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("annonces")
+    .insert([annonce]);
+
+  if (error) {
+    message.textContent = "Erreur : " + error.message;
+  } else {
+    message.textContent = "Annonce publiée avec succès !";
+  }
+}
   const email = document.getElementById("auth-email").value;
   const password = document.getElementById("auth-password").value;
   const message = document.getElementById("auth-message");
