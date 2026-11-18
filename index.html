@@ -230,6 +230,11 @@ footer {
   <input id="category" type="text" placeholder="Catégorie">
   <input id="city" type="text" placeholder="Ville">
   <input id="phone" type="tel" placeholder="Téléphone">
+  <input id="phone" type="tel" placeholder="Téléphone">
+<input id="image" type="file" accept="image/*">
+
+<button onclick="publishAd()">Publier l'annonce</button>
+<p id="publish-message"></p>
 
   <button onclick="publishAd()">Publier l'annonce</button>
   <p id="publish-message"></p>
@@ -318,6 +323,7 @@ async function signIn() {
     : "Connexion réussie !";
 }
 
+
 async function publishAd() {
   const message = document.getElementById("publish-message");
 
@@ -330,6 +336,7 @@ async function publishAd() {
   }
 
   const priceValue = document.getElementById("price").value;
+  const file = document.getElementById("image").files[0];
 
   const annonce = {
     title: document.getElementById("title").value.trim(),
@@ -337,7 +344,8 @@ async function publishAd() {
     price: Number(priceValue),
     category: document.getElementById("category").value.trim(),
     city: document.getElementById("city").value.trim(),
-    phone: document.getElementById("phone").value.trim()
+    phone: document.getElementById("phone").value.trim(),
+    image_url: null
   };
 
   if (
@@ -348,8 +356,33 @@ async function publishAd() {
     !annonce.category ||
     !annonce.city
   ) {
-    message.textContent = "Veuillez remplir correctement les champs obligatoires.";
+    message.textContent = "Veuillez remplir les champs obligatoires.";
     return;
+  }
+
+  if (file) {
+    if (!file.type.startsWith("image/") || file.size > 5 * 1024 * 1024) {
+      message.textContent = "Image invalide ou supérieure à 5 Mo.";
+      return;
+    }
+
+    const filePath = user.id + "/" + Date.now() + "_" +
+      file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+
+    const { error: uploadError } = await supabaseClient.storage
+      .from("annonces-images")
+      .upload(filePath, file);
+
+    if (uploadError) {
+      message.textContent = "Erreur image : " + uploadError.message;
+      return;
+    }
+
+    const { data: urlData } = supabaseClient.storage
+      .from("annonces-images")
+      .getPublicUrl(filePath);
+
+    annonce.image_url = urlData.publicUrl;
   }
 
   const { error } = await supabaseClient
@@ -358,70 +391,22 @@ async function publishAd() {
 
   if (error) {
     message.textContent = "Erreur : " + error.message;
-  } else {
-    message.textContent = "Annonce publiée avec succès !";
-
-    document.getElementById("title").value = "";
-    document.getElementById("description").value = "";
-    document.getElementById("price").value = "";
-    document.getElementById("category").value = "";
-    document.getElementById("city").value = "";
-    document.getElementById("phone").value = "";
+    return;
   }
+
+  message.textContent = "Annonce publiée avec succès !";
+
+  document.getElementById("title").value = "";
+  document.getElementById("description").value = "";
+  document.getElementById("price").value = "";
+  document.getElementById("category").value = "";
+  document.getElementById("city").value = "";
+  document.getElementById("phone").value = "";
+  document.getElementById("image").value = "";
+
+  loadAds();
 }
 
-testSupabase();
-  async function searchAds() {
-  const search = document.getElementById("search").value.trim();
-
-  const { data, error } = await supabaseClient
-    .from("annonces")
-    .select("*")
-    .ilike("title", `%${search}%`)
-    .eq("status", "active");
-
-  if (error) {
-    alert("Erreur de recherche : " + error.message);
-    return;
-  }
-
-  if (data.length === 0) {
-    alert("Aucune annonce trouvée.");
-    return;
-  }
-
-  alert(data.map(ad => ad.title + " - " + ad.price + " TND").join("\n"));
-}
-  async function loadAds() {
-  const container = document.getElementById("annonces-list");
-
-  const { data, error } = await supabaseClient
-    .from("annonces")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    container.textContent = "Erreur : " + error.message;
-    return;
-  }
-
-  if (!data || data.length === 0) {
-    container.textContent = "Aucune annonce pour le moment.";
-    return;
-  }
-
-  container.innerHTML = data.map(ad => `
-    <div class="annonce-card">
-      <h3>${ad.title || "Sans titre"}</h3>
-      <p>${ad.description || ""}</p>
-      <p>${ad.price || "Prix à contacter"} TND</p>
-      <p>${ad.city || ""}</p>
-    </div>
-  `).join("");
-}
-
-loadAds();
-</script>
 
 </body>
 </html>
