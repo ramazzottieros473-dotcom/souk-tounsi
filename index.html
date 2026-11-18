@@ -1,139 +1,256 @@
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Souk Tounsi | Le marché tunisien</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial;background:#f5f6f2;color:#202b32}
-header{background:#173c35;color:white;padding:25px 6%}
-.logo{font-size:30px;font-weight:bold}
-.logo span{color:#e9b957}
-header p{margin:8px 0}
-nav{background:white;padding:16px 6%;display:flex;gap:25px;flex-wrap:wrap}
-nav a{color:#173c35;text-decoration:none;font-weight:bold}
-.hero{padding:55px 6%;background:#e6eee8}
-.hero h1{font-size:38px;max-width:600px}
-.hero p{font-size:18px;color:#53645c}
-.search{display:flex;gap:10px;flex-wrap:wrap}
-input,select{padding:15px;border:1px solid #ccc;border-radius:7px;min-width:180px}
-button{background:#d49a32;color:#172e27;padding:15px 22px;border:0;border-radius:7px;font-weight:bold;cursor:pointer}
-section{padding:35px 6%}
-.categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:15px}
-.category{background:white;padding:25px 10px;text-align:center;border-radius:12px;font-weight:bold}
-.category div{font-size:30px;margin-bottom:10px}
-.publish{background:#173c35;color:white;padding:35px;border-radius:12px;text-align:center}
-footer{background:#142c27;color:white;text-align:center;padding:25px}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f6f2;
+  color: #202b32;
+}
+
+header {
+  background: #173c35;
+  color: white;
+  padding: 25px 6%;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #e9b957;
+}
+
+header p {
+  margin: 8px 0;
+}
+
+nav {
+  background: white;
+  padding: 16px 6%;
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: #173c35;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.hero {
+  padding: 55px 6%;
+  background: #e6eee8;
+}
+
+.hero h1 {
+  font-size: 38px;
+  max-width: 600px;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #53645c;
+}
+
+.search {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+input, select {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  min-width: 180px;
+}
+
+button {
+  background: #d49a32;
+  color: #172e27;
+  padding: 15px 22px;
+  border: 0;
+  border-radius: 7px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+section {
+  padding: 35px 6%;
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+}
+
+.category {
+  background: white;
+  padding: 25px 10px;
+  text-align: center;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.category div {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.publish {
+  background: #173c35;
+  color: white;
+  padding: 35px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+footer {
+  background: #142c27;
+  color: white;
+  text-align: center;
+  padding: 25px;
+}
+
+#connectionStatus {
+  padding: 12px 6%;
+  font-size: 14px;
+}
 </style>
 </head>
+
 <body>
+
 <header>
-<div class="logo">SOUK <span>TOUNSI</span> 🇹🇳</div>
-<p>Le marché tunisien, autrement.</p>
+  <div class="logo">SOUK <span>TOUNSI</span> 🇹🇳</div>
+  <p>Le marché tunisien, autrement.</p>
 </header>
-<nav>l
-<a href="#">Accueil</a>
-<a href="#categories">Catégories</a>
-<a href="#publier">Déposer une annonce</a>
-<a href="#contact">Contact</a>
+
+<nav>
+  <a href="#">Accueil</a>
+  <a href="#categories">Catégories</a>
+  <a href="#publier">Déposer une annonce</a>
+  <a href="#contact">Contact</a>
 </nav>
+
 <div class="hero">
-<h1>Donnez une seconde vie à vos objets.</h1>
-<p>Découvrez les bonnes affaires près de chez vous, partout en Tunisie.</p>
-<div class="search">
-<input placeholder="Que recherchez-vous ?">
-<select>
-<option>Toute la Tunisie</option>
-<option>Tunis</option>
-<option>Sousse</option>
-<option>Sfax</option>
-<option>Nabeul</option>
-<option>Monastir</option>
-</select>
-<button onclick="alert('La recherche sera bientôt disponible !')">Rechercher</button>
+  <h1>Donnez une seconde vie à vos objets.</h1>
+  <p>Découvrez les bonnes affaires près de chez vous, partout en Tunisie.</p>
+
+  <div class="search">
+    <input type="text" placeholder="Que recherchez-vous ?">
+
+    <select>
+      <option>Toute la Tunisie</option>
+      <option>Tunis</option>
+      <option>Sousse</option>
+      <option>Sfax</option>
+      <option>Nabeul</option>
+      <option>Monastir</option>
+    </select>
+
+    <button onclick="alert('La recherche sera bientôt disponible !')">
+      Rechercher
+    </button>
+  </div>
 </div>
-</div>
+
 <section id="categories">
-<h2>Explorez nos univers</h2>
-<div class="categories">
-<div class="category"><div>🚗</div>Automobiles</div>
-<div class="category"><div>🏠</div>Immobilier</div>
-<div class="category"><div>📱</div>Téléphones</div>
-<div class="category"><div>💻</div>Informatique</div>
-<div class="category"><div>🛋️</div>Maison</div>
-<div class="category"><div>👕</div>Mode</div>
-<div class="category"><div>⚽</div>Loisirs</div>
-<div class="category"><div>🔧</div>Services</div>
-</div>
+  <h2>Explorez nos univers</h2>
+
+  <div class="categories">
+    <div class="category"><div>🚗</div>Automobiles</div>
+    <div class="category"><div>🏠</div>Immobilier</div>
+    <div class="category"><div>📱</div>Téléphones</div>
+    <div class="category"><div>💻</div>Informatique</div>
+    <div class="category"><div>🛋️</div>Maison</div>
+    <div class="category"><div>👕</div>Mode</div>
+    <div class="category"><div>⚽</div>Loisirs</div>
+    <div class="category"><div>🔧</div>Services</div>
+  </div>
 </section>
+
 <section id="publier">
-<div class="publish">
-<h2>Vous avez quelque chose à vendre ?</h2>
-<p>Rejoignez Souk Tounsi et présentez votre annonce.</p>
-<button onclick="alert('Le dépôt des annonces arrive bientôt !')">Déposer une annonce</button>
-</div>
+  <div class="publish">
+    <h2>Vous avez quelque chose à vendre ?</h2>
+    <p>Rejoignez Souk Tounsi et présentez votre annonce.</p>
+
+    <button onclick="alert('Le dépôt des annonces arrive bientôt !')">
+      Déposer une annonce
+    </button>
+  </div>
 </section>
+
+<div id="connectionStatus">
+  Connexion à la base de données...
+</div>
+
 <footer id="contact">
+  <p>Souk Tounsi © 2026</p>
+  <p>Le marché tunisien, autrement.</p>
 </footer>
 
+<!-- SUPABASE : chargement unique -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+"use strict";
+
+// Configuration Supabase
 const SUPABASE_URL = "https://hcpzsvvmafhkauxleynx.supabase.co";
 
-sb_publishable_pNg1vfqM1z2aOw225BQryw_5dqA4Nli
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);alert("Supabase client créé !");
-  document.body.insertAdjacentHTML(
-  "beforeend",
-  "<p>SUPABASE CLIENT OK</p>"
-);
-</script>
-
-async function testSupabase() {
-  const { data, error } = await supabaseClient
-    .from('annonces')
-    .select('id')
-    .limit(1);
-
-  if (error) {
-    alert('Erreur Supabase: ' + error.message);
-  } else {
-    alert('Connexion Supabase réussie !');
-  }
-}
-
-testSupabase();
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-const SUPABASE_URL = "https://hcpzsvvmafhkauxleynx.supabase.co";
+// Remplacer par ton Publishable Key
 const SUPABASE_KEY = "sb_publishable_pNg1vfqM1z2aOw225BQryw_5dqA4Nli";
 
+// Création du client Supabase
 const supabaseClient = window.supabase.createClient(
-  async function testSupabase() {
-  const { data, error } = await supabaseClient
-    .from('annonces')
-    .select('id')
-    .limit(1);
-
-  if (error) {
-    console.error("Erreur Supabase:", error.message);
-  } else {
-    console.log("Connexion Supabase réussie !");
-  }
-}
-
-testSupabase();
   SUPABASE_URL,
   SUPABASE_KEY
 );
 
-console.log("Supabase client initialisé !");
+// Test de connexion
+async function testSupabase() {
+  const status = document.getElementById("connectionStatus");
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("annonces")
+      .select("id")
+      .limit(1);
+
+    if (error) {
+      console.error("Erreur Supabase:", error.message);
+      status.textContent = "Erreur Supabase : " + error.message;
+      return;
+    }
+
+    console.log("Connexion Supabase réussie !");
+    status.textContent = "Connexion à la base de données réussie !";
+
+  } catch (error) {
+    console.error("Erreur:", error);
+    status.textContent = "Impossible de contacter Supabase.";
+  }
+}
+
+testSupabase();
 </script>
+
 </body>
 </html>
