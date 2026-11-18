@@ -215,7 +215,12 @@ footer {
     </button>
   </div>
 </section>
-
+<section id="annonces-section">
+  <h2>Dernières annonces</h2>
+  <div id="annonces-list">
+    Chargement des annonces...
+  </div>
+</section>
 <section id="publish-section">
   <h2>Déposer une annonce</h2>
 
@@ -387,6 +392,35 @@ testSupabase();
 
   alert(data.map(ad => ad.title + " - " + ad.price + " TND").join("\n"));
 }
+  async function loadAds() {
+  const container = document.getElementById("annonces-list");
+
+  const { data, error } = await supabaseClient
+    .from("annonces")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    container.textContent = "Erreur : " + error.message;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.textContent = "Aucune annonce pour le moment.";
+    return;
+  }
+
+  container.innerHTML = data.map(ad => `
+    <div class="annonce-card">
+      <h3>${ad.title || "Sans titre"}</h3>
+      <p>${ad.description || ""}</p>
+      <p>${ad.price || "Prix à contacter"} TND</p>
+      <p>${ad.city || ""}</p>
+    </div>
+  `).join("");
+}
+
+loadAds();
 </script>
 
 </body>
