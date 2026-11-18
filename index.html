@@ -250,21 +250,23 @@ async function testSupabase() {
 }
 
 testSupabase();
-  async function signUp() {
+ async function signUp() {
   const email = document.getElementById("auth-email").value;
   const password = document.getElementById("auth-password").value;
   const message = document.getElementById("auth-message");
 
   const { error } = await supabaseClient.auth.signUp({
     email: email,
-    password: password
+    password: password,
+    options: {
+      emailRedirectTo: "https://ramazzottieros473-dotcom.github.io/souk-tounsi/"
+    }
   });
 
   message.textContent = error
     ? error.message
     : "Compte créé ! Vérifiez votre email.";
 }
-
 async function signIn() {
   const email = document.getElementById("auth-email").value;
   const password = document.getElementById("auth-password").value;
