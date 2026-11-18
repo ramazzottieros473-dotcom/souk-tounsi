@@ -184,9 +184,9 @@ footer {
       <option>Monastir</option>
     </select>
 
-    <button onclick="alert('La recherche sera bientôt disponible !')">
-      Rechercher
-    </button>
+    <button type="button" onclick="searchAds()">
+  Rechercher
+</button>
   </div>
 </div>
 
@@ -366,6 +366,27 @@ async function publishAd() {
 }
 
 testSupabase();
+  async function searchAds() {
+  const search = document.getElementById("search").value.trim();
+
+  const { data, error } = await supabaseClient
+    .from("annonces")
+    .select("*")
+    .ilike("title", `%${search}%`)
+    .eq("status", "active");
+
+  if (error) {
+    alert("Erreur de recherche : " + error.message);
+    return;
+  }
+
+  if (data.length === 0) {
+    alert("Aucune annonce trouvée.");
+    return;
+  }
+
+  alert(data.map(ad => ad.title + " - " + ad.price + " TND").join("\n"));
+}
 </script>
 
 </body>
