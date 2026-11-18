@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -73,11 +72,17 @@ nav a {
   flex-wrap: wrap;
 }
 
-input, select {
+input, select, textarea {
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 7px;
   min-width: 180px;
+  font-family: Arial, sans-serif;
+}
+
+textarea {
+  min-height: 110px;
+  resize: vertical;
 }
 
 button {
@@ -121,16 +126,30 @@ section {
   text-align: center;
 }
 
-footer {
-  background: #142c27;
-  color: white;
-  text-align: center;
-  padding: 25px;
+#publish-section input,
+#publish-section textarea,
+#auth-section input {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  margin: 12px 0;
+}
+
+#publish-section,
+#auth-section {
+  background: white;
 }
 
 #connectionStatus {
   padding: 12px 6%;
   font-size: 14px;
+}
+
+footer {
+  background: #142c27;
+  color: white;
+  text-align: center;
+  padding: 25px;
 }
 </style>
 </head>
@@ -191,11 +210,6 @@ footer {
     <h2>Vous avez quelque chose à vendre ?</h2>
     <p>Rejoignez Souk Tounsi et présentez votre annonce.</p>
 
-  <section id="publier">
-  <div class="publish">
-    <h2>Vous avez quelque chose à vendre ?</h2>
-    <p>Rejoignez Souk Tounsi et présentez votre annonce.</p>
-
     <button onclick="document.getElementById('publish-section').scrollIntoView({behavior:'smooth'})">
       Déposer une annonce
     </button>
@@ -204,6 +218,7 @@ footer {
 
 <section id="publish-section">
   <h2>Déposer une annonce</h2>
+
   <input id="title" type="text" placeholder="Titre de l'annonce">
   <textarea id="description" placeholder="Description"></textarea>
   <input id="price" type="number" placeholder="Prix en TND">
@@ -215,6 +230,18 @@ footer {
   <p id="publish-message"></p>
 </section>
 
+<section id="auth-section">
+  <h2>Créer un compte / Se connecter</h2>
+
+  <input type="email" id="auth-email" placeholder="Votre email">
+  <input type="password" id="auth-password" placeholder="Votre mot de passe">
+
+  <button onclick="signUp()">Créer un compte</button>
+  <button onclick="signIn()">Se connecter</button>
+
+  <p id="auth-message"></p>
+</section>
+
 <div id="connectionStatus">
   Connexion à la base de données...
 </div>
@@ -224,51 +251,36 @@ footer {
   <p>Le marché tunisien, autrement.</p>
 </footer>
 
-<!-- SUPABASE : chargement unique -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 "use strict";
 
-// Configuration Supabase
 const SUPABASE_URL = "https://hcpzsvvmafhkauxleynx.supabase.co";
 
-// Remplacer par ton Publishable Key
 const SUPABASE_KEY = "sb_publishable_pNg1vfqM1z2aOw225BQryw_5dqA4Nli";
 
-// Création du client Supabase
 const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
 
-// Test de connexion
 async function testSupabase() {
   const status = document.getElementById("connectionStatus");
 
-  try {
-    const { data, error } = await supabaseClient
-      .from("annonces")
-      .select("id")
-      .limit(1);
+  const { error } = await supabaseClient
+    .from("annonces")
+    .select("id")
+    .limit(1);
 
-    if (error) {
-      console.error("Erreur Supabase:", error.message);
-      status.textContent = "Erreur Supabase : " + error.message;
-      return;
-    }
-
-    console.log("Connexion Supabase réussie !");
+  if (error) {
+    status.textContent = "Erreur Supabase : " + error.message;
+  } else {
     status.textContent = "Connexion à la base de données réussie !";
-
-  } catch (error) {
-    console.error("Erreur:", error);
-    status.textContent = "Impossible de contacter Supabase.";
   }
 }
 
-testSupabase();
- async function signUp() {
+async function signUp() {
   const email = document.getElementById("auth-email").value;
   const password = document.getElementById("auth-password").value;
   const message = document.getElementById("auth-message");
@@ -285,42 +297,8 @@ testSupabase();
     ? error.message
     : "Compte créé ! Vérifiez votre email.";
 }
-async function signIn() {async function publishAd() {
-  const message = document.getElementById("publish-message");
 
-  const { data: { user }, error: authError } =
-    await supabaseClient.auth.getUser();
-
-  if (authError || !user) {
-    message.textContent = "Veuillez vous connecter d'abord.";
-    return;
-  }
-
-  const annonce = {
-    title: document.getElementById("title").value.trim(),
-    description: document.getElementById("description").value.trim(),
-    price: Number(document.getElementById("price").value),
-    category: document.getElementById("category").value.trim(),
-    city: document.getElementById("city").value.trim(),
-    phone: document.getElementById("phone").value.trim()
-  };
-
-  if (!annonce.title || !annonce.description ||
-      !annonce.category || !annonce.city) {
-    message.textContent = "Veuillez remplir les champs obligatoires.";
-    return;
-  }
-
-  const { error } = await supabaseClient
-    .from("annonces")
-    .insert([annonce]);
-
-  if (error) {
-    message.textContent = "Erreur : " + error.message;
-  } else {
-    message.textContent = "Annonce publiée avec succès !";
-  }
-}
+async function signIn() {
   const email = document.getElementById("auth-email").value;
   const password = document.getElementById("auth-password").value;
   const message = document.getElementById("auth-message");
@@ -334,17 +312,61 @@ async function signIn() {async function publishAd() {
     ? error.message
     : "Connexion réussie !";
 }
+
+async function publishAd() {
+  const message = document.getElementById("publish-message");
+
+  const { data: { user }, error: authError } =
+    await supabaseClient.auth.getUser();
+
+  if (authError || !user) {
+    message.textContent = "Veuillez vous connecter d'abord.";
+    return;
+  }
+
+  const priceValue = document.getElementById("price").value;
+
+  const annonce = {
+    title: document.getElementById("title").value.trim(),
+    description: document.getElementById("description").value.trim(),
+    price: Number(priceValue),
+    category: document.getElementById("category").value.trim(),
+    city: document.getElementById("city").value.trim(),
+    phone: document.getElementById("phone").value.trim()
+  };
+
+  if (
+    !annonce.title ||
+    !annonce.description ||
+    !priceValue ||
+    annonce.price <= 0 ||
+    !annonce.category ||
+    !annonce.city
+  ) {
+    message.textContent = "Veuillez remplir correctement les champs obligatoires.";
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("annonces")
+    .insert([annonce]);
+
+  if (error) {
+    message.textContent = "Erreur : " + error.message;
+  } else {
+    message.textContent = "Annonce publiée avec succès !";
+
+    document.getElementById("title").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("category").value = "";
+    document.getElementById("city").value = "";
+    document.getElementById("phone").value = "";
+  }
+}
+
+testSupabase();
 </script>
-<section id="auth-section">
-  <h2>Créer un compte / Se connecter</h2>
 
-  <input type="email" id="auth-email" placeholder="Votre email">
-  <input type="password" id="auth-password" placeholder="Votre mot de passe">
-
-  <button onclick="signUp()">Créer un compte</button>
-  <button onclick="signIn()">Se connecter</button>
-
-  <p id="auth-message"></p>
-</section>
 </body>
 </html>
