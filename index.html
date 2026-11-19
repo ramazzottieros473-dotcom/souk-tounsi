@@ -377,14 +377,6 @@ async function loadAds() {
   });
 }
 
-  container.innerHTML = data.map(ad => `
-    <div class="annonce-card">
-      <h3>${ad.title || "Sans titre"}</h3>
-      <p>${ad.description || ""}</p>
-      <p>${ad.price || "Prix à contacter"} TND</p>
-      <p>${ad.city || ""}</p>
-    </div>
-  `).join("");
 }
   async function searchAds() {
   const searchValue = document.getElementById("search").value.trim();
@@ -433,7 +425,6 @@ async function loadAds() {
     const city = document.createElement("p");
     city.textContent = ad.city || "";
     card.appendChild(city);
-
     container.appendChild(card);
   });
 }
