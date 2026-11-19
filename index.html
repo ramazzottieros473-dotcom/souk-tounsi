@@ -321,6 +321,11 @@ async function signIn() {
 }
 
 
+
+image.style.width = "100%";
+image.style.height = "180px";
+image.style.objectFit = "cover";
+
 async function loadAds() {
   const container = document.getElementById("annonces-list");
 
@@ -350,21 +355,40 @@ async function loadAds() {
 
     const image = document.createElement("img");
 
-if (ad.image_url) {
-  image.src = ad.image_url;
-  image.alt = ad.title || "Annonce";
-} else {
-  image.src = "https://placehold.co/600x400?text=Souk+Tounsi";
-  image.alt = "Aucune photo";
-}
-
-image.style.width = "100%";
-image.style.height = "180px";
-image.style.objectFit = "cover";
-image.style.borderRadius = "8px";
-
-card.appendChild(image);
+    if (ad.image_url) {
+      image.src = ad.image_url;
+      image.alt = ad.title || "Annonce";
+    } else {
+      image.src = "https://placehold.co/600x400?text=Souk+Tounsi";
+      image.alt = "Aucune photo";
     }
+
+    image.style.width = "100%";
+    image.style.height = "180px";
+    image.style.objectFit = "cover";
+    image.style.borderRadius = "8px";
+
+    card.appendChild(image);
+
+    const title = document.createElement("h3");
+    title.textContent = ad.title || "Sans titre";
+    card.appendChild(title);
+
+    const description = document.createElement("p");
+    description.textContent = ad.description || "";
+    card.appendChild(description);
+
+    const price = document.createElement("strong");
+    price.textContent = ad.price ? ad.price + " TND" : "Prix à contacter";
+    card.appendChild(price);
+
+    const city = document.createElement("p");
+    city.textContent = ad.city || "";
+    card.appendChild(city);
+
+    container.appendChild(card);
+  });
+}
 
     const title = document.createElement("h3");
     title.textContent = ad.title || "Sans titre";
