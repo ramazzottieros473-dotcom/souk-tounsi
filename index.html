@@ -386,6 +386,57 @@ async function loadAds() {
     </div>
   `).join("");
 }
+  async function searchAds() {
+  const searchValue = document.getElementById("search").value.trim();
+  const container = document.getElementById("annonces-list");
+
+  if (!searchValue) {
+    loadAds();
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from("annonces")
+    .select("*")
+    .eq("status", "active")
+    .ilike("title", `%${searchValue}%`)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    container.textContent = "Erreur : " + error.message;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.textContent = "Aucune annonce trouvée.";
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(ad => {
+    const card = document.createElement("div");
+    card.className = "annonce-card";
+
+    const title = document.createElement("h3");
+    title.textContent = ad.title || "Sans titre";
+    card.appendChild(title);
+
+    const description = document.createElement("p");
+    description.textContent = ad.description || "";
+    card.appendChild(description);
+
+    const price = document.createElement("strong");
+    price.textContent = ad.price ? ad.price + " TND" : "Prix à contacter";
+    card.appendChild(price);
+
+    const city = document.createElement("p");
+    city.textContent = ad.city || "";
+    card.appendChild(city);
+
+    container.appendChild(card);
+  });
+}
 async function publishAd() {
   const message = document.getElementById("publish-message");
 
