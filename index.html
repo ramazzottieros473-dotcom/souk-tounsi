@@ -385,7 +385,6 @@ async function loadAds() {
   if (!searchValue) {
     loadAds();
     return;
-  }
 
   const { data, error } = await supabaseClient
     .from("annonces")
