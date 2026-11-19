@@ -320,6 +320,7 @@ async function signIn() {
     : "Connexion réussie !";
 }
 
+
 async function loadAds() {
   const container = document.getElementById("annonces-list");
 
@@ -377,14 +378,14 @@ async function loadAds() {
   });
 }
 
-}
-  async function searchAds() {
+async function searchAds() {
   const searchValue = document.getElementById("search").value.trim();
   const container = document.getElementById("annonces-list");
 
   if (!searchValue) {
     loadAds();
     return;
+  }
 
   const { data, error } = await supabaseClient
     .from("annonces")
@@ -424,9 +425,11 @@ async function loadAds() {
     const city = document.createElement("p");
     city.textContent = ad.city || "";
     card.appendChild(city);
+
     container.appendChild(card);
   });
 }
+
 async function publishAd() {
   const message = document.getElementById("publish-message");
 
