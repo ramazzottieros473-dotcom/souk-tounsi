@@ -261,7 +261,7 @@ footer {
   <p>Le marché tunisien, autrement.</p>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> 
 
 <script>
 "use strict";
@@ -402,11 +402,13 @@ async function publishAd() {
   document.getElementById("category").value = "";
   document.getElementById("city").value = "";
   document.getElementById("phone").value = "";
-  document.getElementById("image").value = "";
+   document.getElementById("image").value = "";
 
   loadAds();
 }
 
+loadAds();
+</script>
 
 </body>
 </html>
