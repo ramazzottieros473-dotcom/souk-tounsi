@@ -348,14 +348,22 @@ async function loadAds() {
     const card = document.createElement("div");
     card.className = "annonce-card";
 
-    if (ad.image_url) {
-      const image = document.createElement("img");
-      image.src = ad.image_url;
-      image.alt = ad.title || "Annonce";
-      image.style.width = "100%";
-      image.style.height = "180px";
-      image.style.objectFit = "cover";
-      card.appendChild(image);
+    const image = document.createElement("img");
+
+if (ad.image_url) {
+  image.src = ad.image_url;
+  image.alt = ad.title || "Annonce";
+} else {
+  image.src = "https://placehold.co/600x400?text=Souk+Tounsi";
+  image.alt = "Aucune photo";
+}
+
+image.style.width = "100%";
+image.style.height = "180px";
+image.style.objectFit = "cover";
+image.style.borderRadius = "8px";
+
+card.appendChild(image);
     }
 
     const title = document.createElement("h3");
