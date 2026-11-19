@@ -323,7 +323,33 @@ async function signIn() {
     : "Connexion réussie !";
 }
 
+async function loadAds() {
+  const container = document.getElementById("annonces-list");
 
+  const { data, error } = await supabaseClient
+    .from("annonces")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    container.textContent = "Erreur : " + error.message;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.textContent = "Aucune annonce pour le moment.";
+    return;
+  }
+
+  container.innerHTML = data.map(ad => `
+    <div class="annonce-card">
+      <h3>${ad.title || "Sans titre"}</h3>
+      <p>${ad.description || ""}</p>
+      <p>${ad.price || "Prix à contacter"} TND</p>
+      <p>${ad.city || ""}</p>
+    </div>
+  `).join("");
+}
 async function publishAd() {
   const message = document.getElementById("publish-message");
 
