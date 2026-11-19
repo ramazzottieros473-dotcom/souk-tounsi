@@ -323,9 +323,12 @@ async function signIn() {
 async function loadAds() {
   const container = document.getElementById("annonces-list");
 
+  container.innerHTML = "Chargement des annonces...";
+
   const { data, error } = await supabaseClient
     .from("annonces")
     .select("*")
+    .eq("status", "active")
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -337,6 +340,42 @@ async function loadAds() {
     container.textContent = "Aucune annonce pour le moment.";
     return;
   }
+
+  container.innerHTML = "";
+
+  data.forEach(ad => {
+    const card = document.createElement("div");
+    card.className = "annonce-card";
+
+    if (ad.image_url) {
+      const image = document.createElement("img");
+      image.src = ad.image_url;
+      image.alt = ad.title || "Annonce";
+      image.style.width = "100%";
+      image.style.height = "180px";
+      image.style.objectFit = "cover";
+      card.appendChild(image);
+    }
+
+    const title = document.createElement("h3");
+    title.textContent = ad.title || "Sans titre";
+    card.appendChild(title);
+
+    const description = document.createElement("p");
+    description.textContent = ad.description || "";
+    card.appendChild(description);
+
+    const price = document.createElement("strong");
+    price.textContent = ad.price ? ad.price + " TND" : "Prix à contacter";
+    card.appendChild(price);
+
+    const city = document.createElement("p");
+    city.textContent = ad.city || "";
+    card.appendChild(city);
+
+    container.appendChild(card);
+  });
+}
 
   container.innerHTML = data.map(ad => `
     <div class="annonce-card">
