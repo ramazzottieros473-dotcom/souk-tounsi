@@ -144,7 +144,49 @@ section {
   padding: 12px 6%;
   font-size: 14px;
 }
+#annonces-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 22px;
+}
 
+.annonce-card {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  padding: 15px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
+}
+
+.annonce-card:hover {
+  transform: translateY(-4px);
+}
+
+.annonce-card img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.annonce-card h3 {
+  color: #173c35;
+  font-size: 20px;
+  margin: 12px 0;
+}
+
+.annonce-card strong {
+  display: block;
+  color: #bd8422;
+  font-size: 21px;
+  margin: 12px 0;
+}
+
+.annonce-card p {
+  color: #64716b;
+  line-height: 1.5;
+}
 footer {
   background: #142c27;
   color: white;
