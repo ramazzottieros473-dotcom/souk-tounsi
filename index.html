@@ -414,7 +414,16 @@ async function loadAds() {
     const city = document.createElement("p");
     city.textContent = ad.city || "";
     card.appendChild(city);
+card.style.cursor = "pointer";
 
+card.addEventListener("click", () => {
+  alert(
+    "Annonce : " + (ad.title || "") +
+    "\nDescription : " + (ad.description || "") +
+    "\nPrix : " + (ad.price || "À contacter") + " TND" +
+    "\nVille : " + (ad.city || "")
+  );
+});
     container.appendChild(card);
   });
 }
